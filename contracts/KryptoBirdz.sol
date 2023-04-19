@@ -7,6 +7,6 @@ contract Kryptobird {
 
   constructor() {
     name = 'Kryptobird';
-    sypbol = 'KBIRDZ';
+    symbol = 'KBIRDZ';
   }
 }
