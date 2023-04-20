@@ -8,7 +8,7 @@ module.exports = {
   },
 
   // contract_directory: 'src/contracts/',
-  contract_build_directory: 'src/abis',
+  // contract_build_directory: '/src/abis',
  
   compilers: {
     solc: {
