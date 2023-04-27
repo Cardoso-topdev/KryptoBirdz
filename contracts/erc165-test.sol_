@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: MIT
+pragma solidity >= 0.7.0 < 0.9.0;
+
+interface IERC165 {
+  function supportsInterface(bytes4 interfaceId) external view returns (bool);
+  // function balanceOf(address _owner) external view returns (uint256);
+}
+
+contract ERC165 is IERC165 {
+
+  // write a byte calculation interface function algorithm
+  function calcFingerPrint() public view returns(bytes4) {
+    return bytes4(keccak256('supportsInterface(bytes4)')); // ^keccak256('balanceOf(bytes4)')
+  }
+
+  // function balanceOf(address _owner) external override view returns (uint256) {
+  //   return 5;
+  // }
+  
+  // hash table to keep track of contract finterprint data of byte function conversions
+  mapping(bytes4 => bool) private _supportedInterfaces;
+
+  function supportsInterface(bytes4 interfaceId) external override view returns (bool) {
+    return _supportedInterfaces[interfaceId];
+  }
+
+  constructor() {
+    _registerInterface(0x01ffc9a7);
+  }
+
+  function _registerInterface(bytes4 interfaceId) public {
+    require(interfaceId != 0xffffffff, 'ERC165: Invalid Interface');
+    _supportedInterfaces[interfaceId] = true;
+  }
+}

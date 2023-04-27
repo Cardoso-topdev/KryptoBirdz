@@ -1,17 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ERC721 {
+import './ERC165.sol';
+import './interfaces/IERC721.sol';
 
-  event Transfer(
-    address indexed from,
-    address indexed to,
-    uint256 indexed tokenId);
+contract ERC721 is ERC165, IERC721 {
 
-  event Approval(
-    address indexed owner,
-    address indexed approved,
-    uint256 indexed tokenId);
   // mapping in solidity creates a hash table of key pair values
 
   // Mapping from token id to the owner
@@ -23,11 +17,11 @@ contract ERC721 {
   // Mapping from token id to approved addresses
   mapping(uint256 => address) private _tokenApprovals;
 
-  /// @notice Count all NFTs assigned to an owner
-  /// @dev NFTs assigned to the zero address are considered invalid, and this
-  ///  function throws for queries about the zero address.
-  /// @param _owner An address for whom to query the balance
-  /// @return The number of NFTs owned by `_owner`, possibly zero
+  constructor () {
+    _registerInterface(bytes4(keccak256('balanceOf(bytes4)')^
+    keccak256('ownerOf(bytes4)')^keccak256('transferFrom(bytes4)')));
+  }
+
   function balanceOf(address _owner) public view returns(uint256) {
     require(_owner !=address(0), 'owner query for nonexistent token');
     return _OwnedTokensCount[_owner];
